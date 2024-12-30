@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina el Jugador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .player-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .player-button:hover {
+            background-color: #0056b3;
+        }
+        .hint {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .input {
+            margin: 10px 0;
+        }
+        .input input {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adivina el Jugador</h1>
+        <p>Haz clic en el botón para obtener pistas y adivina quién es el jugador.</p>
+        <button class="player-button" onclick="generateHint()">Generar Pista</button>
+        <div class="hint" id="hint"></div>
+        <div class="input">
+            <input type="text" id="playerGuess" placeholder="Escribe el nombre del jugador">
+        </div>
+        <button class="submit-button" onclick="checkGuess()">Enviar</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const players = [
+            { name: "Lionel Messi", club: "Inter Miami", country: "Argentina", position: "Delantero" },
+            { name: "Cristiano Ronaldo", club: "Al-Nassr", country: "Portugal", position: "Delantero" },
+            { name: "Kylian Mbappé", club: "Paris Saint-Germain", country: "Francia", position: "Delantero" },
+            { name: "Erling Haaland", club: "Manchester City", country: "Noruega", position: "Delantero" },
+            { name: "Luka Modrić", club: "Real Madrid", country: "Croacia", position: "Centrocampista" }
+        ];
+
+        let currentPlayer = null;
+
+        function generateHint() {
+            currentPlayer = players[Math.floor(Math.random() * players.length)];
+            const hint = `Club: ${currentPlayer.club}, País: ${currentPlayer.country}, Posición: ${currentPlayer.position}`;
+            document.getElementById('hint').textContent = hint;
+            document.getElementById('result').textContent = "";
+            document.getElementById('playerGuess').value = "";
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById('playerGuess').value.trim();
+            if (!currentPlayer) {
+                document.getElementById('result').textContent = "Primero genera una pista.";
+                return;
+            }
+            if (guess.toLowerCase() === currentPlayer.name.toLowerCase()) {
+                document.getElementById('result').textContent = "¡Correcto! Has adivinado el jugador.";
+                document.getElementById('result').style.color = "green";
+            } else {
+                document.getElementById('result').textContent = "Incorrecto. Intenta nuevamente.";
+                document.getElementById('result').style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
